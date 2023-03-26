@@ -55,6 +55,11 @@ class Cycling extends Workout {
 // const run1 = new Running([39, -12], 5.2, 24, 178);
 // const cycling1 = new Cycling([39, -12], 27, 95, 178);
 // console.log(run1, cycling1);
+var el = document.getElementsByClassName('edit--button');
+if (el) {
+  console.log(el);
+  // el.addEventListener('click', (e)=>(console.log(e)););
+}
 
 ////////////////////////////
 //Aplication architecture
@@ -65,7 +70,7 @@ const inputDistance = document.querySelector('.form__input--distance');
 const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
-const editButton = document.querySelector('.edit--button');
+const editButtons = document.getElementsByClassName('edit--button');
 class App {
   #map;
   #mapZoomLevel = 13;
@@ -86,9 +91,12 @@ class App {
 
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
 
-    editButton.addEventListener('click', this._acivateEditForm.bind(this));
-  }
+    for (const editButton of editButtons) {
+      editButton.addEventListener('click', this._acivateEditForm.bind(this));
 
+      // .addEventListener('click', this._acivateEditForm.bind(this));
+    }
+  }
   _getPosition() {
     if (navigator.geolocation)
       navigator.geolocation.getCurrentPosition(
@@ -271,7 +279,7 @@ class App {
 
   _moveToPopup(e) {
     const workoutEl = e.target.closest('.workout');
-
+    console.log(workoutEl);
     if (!workoutEl) return;
 
     const workout = this.#workouts.find(
@@ -311,7 +319,35 @@ class App {
   _acivateEditForm(e) {
     this._showForm();
     const workoutEl = e.target.closest('.workout');
-    console.log(workoutEl);
+    console.log(workoutEl, 'that is _acivateEditForm - workoutEl');
+    // if (!workoutEl) return;
+    const workout = this.#workouts.find(
+      work => work.id === workoutEl.dataset.id
+    );
+    console.log(workout);
+    inputType.value = workout.type;
+    inputDistance.value = workout.distance;
+    inputDuration.value = workout.duration;
+    if (workout.type == 'cycling') {
+      inputCadence.value = workout.elevationGain;
+    }
+    if (workout.type == 'running') {
+      inputCadence.value = workout.pace;
+    }
+    //Get data from form
+    // const type = inputType.value;
+    // const distance = +inputDistance.value;
+    // const duration = +inputDuration.value;
+    // const { lat, lng } = this.#mapEvent.latlng;
+    // let workout;
+    // //If workout running, create running object
+    // if (type === 'running') {
+    //   const cadence = +inputCadence.value;
+
+    // this.inputType = 'inputType';
+    // console.log(e);
+
+    // const workout = this.#workouts.find(work => work.id === workoutEl.dataset.id);
     // this.#workouts.forEach(
     //   work => console.log(work)
     // work.containerWorkouts.classList.add('workout--become__active')
