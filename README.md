@@ -12,3 +12,6 @@ Use it to store here your sport activity, it even has a local storage in it, so 
 Major thanks to Jonas Schmedtmann who managed to make a course who taught this
 
 
+## BOOT THE PROJECT WITH THE LINK
+
+https://kvantalian1.github.io/JS-Leaflet-API-/
