@@ -71,6 +71,7 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 const editButtons = document.getElementsByClassName('edit--button');
+const applyButton = document.querySelector('.apply-button');
 class App {
   #map;
   #mapZoomLevel = 13;
@@ -95,6 +96,8 @@ class App {
       editButton.addEventListener('click', this._acivateEditForm.bind(this));
 
       // .addEventListener('click', this._acivateEditForm.bind(this));
+
+      applyButton.addEventListener('click', this._applyEditToLocalStorage);
     }
   }
   _getPosition() {
@@ -316,6 +319,19 @@ class App {
     location.reload();
   }
 
+  _applyEditToLocalStorage() {
+    //change local storage
+    localStorage.setItem('inputType.value', 'workout.type');
+    localStorage.setItem('inputDistance.value', 'workout.distance');
+    localStorage.setItem('inputDuration.value', 'workout.duration');
+    if (workout.type == 'cycling') {
+      localStorage.setItem('inputElevation.value', 'workout.elevationGain');
+    }
+    if (workout.type == 'running') {
+      localStorage.setItem('inputCadence.value', 'workout.distance');
+    }
+  }
+
   _acivateEditForm(e) {
     this._showForm();
     const workoutEl = e.target.closest('.workout');
@@ -324,15 +340,27 @@ class App {
     const workout = this.#workouts.find(
       work => work.id === workoutEl.dataset.id
     );
+    //gets data from workout
     console.log(workout);
     inputType.value = workout.type;
     inputDistance.value = workout.distance;
     inputDuration.value = workout.duration;
     if (workout.type == 'cycling') {
-      inputCadence.value = workout.elevationGain;
+      inputElevation.value = workout.elevationGain;
     }
     if (workout.type == 'running') {
       inputCadence.value = workout.pace;
+    }
+    console.log(workout.type);
+    //when you click it may toggle caddence/elevgain to appropriate type
+    if (workout.type == inputType.value) {
+      return;
+    } else if (workout.type == 'cycling') {
+      inputElevation
+        .closest('.form__row')
+        .classList.toggle('form__row--hidden');
+    } else if (workout.type == 'running') {
+      inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
     }
     //Get data from form
     // const type = inputType.value;
