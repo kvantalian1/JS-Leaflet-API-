@@ -72,6 +72,8 @@ const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 const editButtons = document.getElementsByClassName('edit--button');
 const applyButton = document.querySelector('.apply-button');
+const idReceiver = document.querySelector('.idReceiver');
+const removeThat = document.querySelector('.removeThat');
 class App {
   #map;
   #mapZoomLevel = 13;
@@ -233,7 +235,7 @@ class App {
     let html = `
       <li class="workout workout--${workout.type}" data-id="${workout.id}">
           <h2 class="workout__title">${workout.description}</h2>
-          <button type="submit" class="edit--button">Edit</button>
+          <button type="submit" class="button edit--button">Edit</button>
           <div class="workout__details">
             <span class="workout__icon">${
               workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'
@@ -320,28 +322,36 @@ class App {
   }
 
   _applyEditToLocalStorage() {
-    //change local storage
-    localStorage.setItem('inputType.value', 'workout.type');
-    localStorage.setItem('inputDistance.value', 'workout.distance');
-    localStorage.setItem('inputDuration.value', 'workout.duration');
-    if (workout.type == 'cycling') {
-      localStorage.setItem('inputElevation.value', 'workout.elevationGain');
-    }
-    if (workout.type == 'running') {
-      localStorage.setItem('inputCadence.value', 'workout.distance');
-    }
+    const data = JSON.parse(localStorage.getItem('workouts'));
+    console.log(data);
   }
 
+  //change local storage
+  //   localStorage.setItem('inputType.value', 'workout.type');
+  //   localStorage.setItem('inputDistance.value', 'workout.distance');
+  //   localStorage.setItem('inputDuration.value', 'workout.duration');
+  //   if (workout.type == 'cycling') {
+  //     localStorage.setItem('inputElevation.value', 'workout.elevationGain');
+  //   }
+  //   if (workout.type == 'running') {
+  //     localStorage.setItem('inputCadence.value', 'workout.distance');
+  //   }
+  // }
+
   _acivateEditForm(e) {
+    // var value = ;
+    // if (idReceiver.textContent) {
+    removeThat.replaceChildren('');
+    // }
+
     this._showForm();
     const workoutEl = e.target.closest('.workout');
-    console.log(workoutEl, 'that is _acivateEditForm - workoutEl');
+    // console.log(workoutEl, 'that is _acivateEditForm - workoutEl');
     // if (!workoutEl) return;
     const workout = this.#workouts.find(
       work => work.id === workoutEl.dataset.id
     );
     //gets data from workout
-    console.log(workout);
     inputType.value = workout.type;
     inputDistance.value = workout.distance;
     inputDuration.value = workout.duration;
@@ -351,8 +361,20 @@ class App {
     if (workout.type == 'running') {
       inputCadence.value = workout.pace;
     }
-    console.log(workout.type);
+    // console.log(workout.type);
+    console.log(workout.id);
+    // const elementDiv = ;
+
+    removeThat
+      .appendChild(document.createElement('div'))
+      .classList.add('idReceiver');
+    let html = `<div class="workout__details">ID:${workout.id}</div>`;
+    const idReceiver = document.querySelector('.idReceiver');
+
+    idReceiver.insertAdjacentHTML('afterend', html);
+
     //when you click it may toggle caddence/elevgain to appropriate type
+
     if (workout.type == inputType.value) {
       return;
     } else if (workout.type == 'cycling') {
@@ -362,34 +384,6 @@ class App {
     } else if (workout.type == 'running') {
       inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
     }
-    //Get data from form
-    // const type = inputType.value;
-    // const distance = +inputDistance.value;
-    // const duration = +inputDuration.value;
-    // const { lat, lng } = this.#mapEvent.latlng;
-    // let workout;
-    // //If workout running, create running object
-    // if (type === 'running') {
-    //   const cadence = +inputCadence.value;
-
-    // this.inputType = 'inputType';
-    // console.log(e);
-
-    // const workout = this.#workouts.find(work => work.id === workoutEl.dataset.id);
-    // this.#workouts.forEach(
-    //   work => console.log(work)
-    // work.containerWorkouts.classList.add('workout--become__active')
-    // );
-
-    // _glowupWorkouts(e){
-
-    // }
-
-    // if (e.target.classList.contains('edit--button'));
-    // {
-
-    // workout.classList.add('workout--become__active');
-    // }
   }
 }
 const app = new App();

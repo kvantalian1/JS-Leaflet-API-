@@ -40,6 +40,10 @@ a:visited {
   color: var(--color-brand--1);
 }
 
+fieldset {
+  height: 3rem;
+  width: 10rem;
+}
 /* SIDEBAR */
 .sidebar {
   flex-basis: 50rem;
@@ -223,8 +227,7 @@ a:visited {
 .cycling-popup .leaflet-popup-content-wrapper {
   border-left: 5px solid var(--color-brand--1);
 }
-
-.edit--button {
+button {
   width: 80px;
   padding: 5px;
   margin: 0 3px;
@@ -233,6 +236,8 @@ a:visited {
   border: 1px solid #ff7e00;
   box-shadow: 4px 4px 4px #3f3f3f;
 }
+/* .edit--button {
+} */
 
 .edit--button:hover {
   box-shadow: 3px 5px 5px;
@@ -240,4 +245,24 @@ a:visited {
 
 .edit--button:active {
   box-shadow: 1px 1px 3px;
+}
+
+.apply-button {
+  float: right;
+  /* display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  align-items: flex-end; */
+}
+
+.idReceiver {
+  font-family: 'Manrope', sans-serif;
+  color: var(--color-light--2);
+  display: inline;
+}
+
+.receiverField {
+  display: flex;
+  align-items: center;
+  align-content: center;
 }
